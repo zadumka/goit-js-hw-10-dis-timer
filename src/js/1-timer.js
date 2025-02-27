@@ -4,6 +4,8 @@ import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
+import icon from '../img/bi_x-octagon.svg';
+
 const btn = document.querySelector('[data-start]');
 const input = document.querySelector('#datetime-picker');
 const days = document.querySelector('[data-days]');
@@ -32,37 +34,33 @@ const options = {
         messageLineHeight: '1.5',
         backgroundColor: '#ef4040',
         theme: 'dark',
-        iconUrl: '../img/bi_x-octagon.svg',
+        iconUrl: icon,
         position: 'topRight',
       });
       btn.disabled = true;
     } else {
       btn.disabled = false;
       console.log(userSelectedDate);
-
-      let timeDifference =
-        userSelectedDate.getTime() - options.defaultDate.getTime();
-
-      let timeObject = convertMs(timeDifference);
-      let timeValues = setTimeValues(timeObject);
-
-      btn.addEventListener('click', () => {
-        btn.disabled = true;
-        input.disabled = true;
-
-        const intervalId = setInterval(() => {
-          timeDifference -= 1000;
-          if (timeDifference <= 0) {
-            clearInterval(intervalId);
-            input.disabled = false;
-            return;
-          }
-          timeObject = convertMs(timeDifference);
-          setTimeValues(timeObject);
-        }, 1000);
-      });
     }
   },
+};
+
+const setTimer = () => {
+  let timeDifference = userSelectedDate.getTime() - new Date().getTime();
+
+  let timeObject = convertMs(timeDifference);
+  setTimeValues(timeObject);
+
+  const intervalId = setInterval(() => {
+    timeDifference -= 1000;
+    if (timeDifference <= 0) {
+      clearInterval(intervalId);
+      input.disabled = false;
+      return;
+    }
+    timeObject = convertMs(timeDifference);
+    setTimeValues(timeObject);
+  }, 1000);
 };
 
 const setTimeValues = object => {
@@ -91,3 +89,9 @@ function convertMs(ms) {
 }
 
 const fp = flatpickr('#datetime-picker', options);
+
+btn.addEventListener('click', () => {
+  btn.disabled = true;
+  input.disabled = true;
+  setTimer();
+});

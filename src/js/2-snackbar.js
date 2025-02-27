@@ -1,6 +1,9 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
+import iconOk from '../img/bi_check2-circle.svg';
+import iconError from '../img/bi_x-octagon.svg';
+
 const btn = document.querySelector('button');
 const fieldset = document.querySelector('fieldset');
 const radioInput = document.querySelectorAll('[type="radio"]');
@@ -34,7 +37,7 @@ form.addEventListener('submit', event => {
         messageLineHeight: '1.5',
         backgroundColor: '#59a10d',
         theme: 'dark',
-        iconUrl: '../img/bi_check2-circle.svg',
+        iconUrl: iconOk,
         position: 'topRight',
       });
     })
@@ -46,7 +49,7 @@ form.addEventListener('submit', event => {
         messageLineHeight: '1.5',
         backgroundColor: '#ef4040',
         theme: 'dark',
-        iconUrl: '../img/bi_x-octagon.svg',
+        iconUrl: iconError,
         position: 'topRight',
       });
     });
